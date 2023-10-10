@@ -16,26 +16,22 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     # TODO: Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
-
 
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
     # nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = { self, nixpkgs, disko, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, disko, sops-nix, home-manager, ... }@inputs:
     let
       inherit (self) outputs;
       # Supported systems for your flake packages, shell, etc.
-      systems = [
-        "aarch64-linux"
-        "i686-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
+      systems = [ "x86_64-linux" ];
       # This is a function that generates an attribute by calling a function you
       # pass to it, with each system as an argument
       forAllSystems = nixpkgs.lib.genAttrs systems;
@@ -68,6 +64,7 @@
             # > Our main nixos configuration file <
             ./nixos/configuration.nix
             disko.nixosModules.disko
+            sops-nix.nixosModules.sops
 
           ];
         };
