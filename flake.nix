@@ -64,6 +64,7 @@
             # > Our main nixos configuration file <
             ./nixos/configuration.nix
             disko.nixosModules.disko
+
             sops-nix.nixosModules.sops
 
           ];

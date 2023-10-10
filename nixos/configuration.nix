@@ -4,7 +4,7 @@
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
-    # outputs.nixosModules.example
+    outputs.nixosModules.bs
 
     # Or modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
@@ -69,6 +69,10 @@
   networking.hostName = "homepc";
   networking.networkmanager.enable = true;
 
+  # networking.wireless.enable = true;
+  # networking.wireless.networks = {
+    # "1337_ap_home" = { pskRaw = "X3A3U5C9msvAnuDo"; };
+  # };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -78,18 +82,15 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   # services.xserver.layout = "en";
   # services.xserver = {
-    # enable = true;
-    # layout = "en,ru,ua";
+  # enable = true;
+  # layout = "en,ru,ua";
   # };
   # programs.sway.enable = true;
   # security.polkit.enable = true;
-
-
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -97,8 +98,8 @@
 
   # Configure keymap in X11
   # services.xserver = {
-    # layout = "us";
-    # xkbVariant = "";
+  # layout = "us";
+  # xkbVariant = "";
   # };
 
   # Enable CUPS to print documents.
@@ -136,7 +137,6 @@
     wget
   ];
 
-
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
     # FIXME: Replace with your username
@@ -159,11 +159,11 @@
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
   # services.openssh = {
-    # enable = true;
-    # # Forbid root login through SSH.
-    # settings.PermitRootLogin = "no";
-    # # Use keys only. Remove if you want to SSH using password (not recommended)
-    # settings.PasswordAuthentication = false;
+  # enable = true;
+  # # Forbid root login through SSH.
+  # settings.PermitRootLogin = "no";
+  # # Use keys only. Remove if you want to SSH using password (not recommended)
+  # settings.PasswordAuthentication = false;
   # };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
