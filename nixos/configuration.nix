@@ -1,23 +1,12 @@
-{ inputs
-, lib
-, config
-, pkgs
-, ...
-}: {
-  imports = [
-    ./hardware-configuration.nix
-    ../modules/simple-efi.nix
-  ];
+{ inputs, lib, config, pkgs, ... }: {
+  imports = [ ./hardware-configuration.nix ../modules/simple-efi.nix ];
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  nixpkgs = { config = { allowUnfree = true; }; };
 
   nix = {
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
+    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
+      config.nix.registry;
 
     settings = {
       experimental-features = "nix-command flakes";
@@ -28,7 +17,8 @@
   sops.defaultSopsFile = ../secrets/example.yaml;
 
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-  environment.sessionVariables.SOPS_AGE_KEY_FILE = "/run/secrets.d/age-keys.txt";
+  environment.sessionVariables.SOPS_AGE_KEY_FILE =
+    "/run/secrets.d/age-keys.txt";
 
   sops.secrets.home-wifi-password = { };
   sops.secrets.work-wifi-password = { };
@@ -39,14 +29,11 @@
   '';
 
   networking.wireless.enable = true;
-  networking.wireless.environmentFile = config.sops.templates."wireless.env".path;
+  networking.wireless.environmentFile =
+    config.sops.templates."wireless.env".path;
   networking.wireless.networks = {
-    "1337_ap_home" = {
-      psk = "@HOME_WIFI@";
-    };
-    "HP-Print-46-DeskJet 2540 Series" = {
-      psk = "@WORK_WIFI@";
-    };
+    "1337_ap_home" = { psk = "@HOME_WIFI@"; };
+    "HP-Print-46-DeskJet 2540 Series" = { psk = "@WORK_WIFI@"; };
   };
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -76,12 +63,10 @@
     pulse.enable = true;
   };
 
-
   programs.git = {
     enable = true;
     lfs.enable = true;
   };
-
 
   environment.systemPackages = with pkgs; [
     vim
@@ -112,17 +97,13 @@
     '';
   };
 
-
   users.mutableUsers = true;
   users.users = {
     user = {
       initialPassword = "user"; # TODO: change password
       shell = pkgs.fish;
       isNormalUser = true;
-      extraGroups = [ 
-        "wheel" 
-        "docker"
-      ];
+      extraGroups = [ "wheel" "docker" ];
     };
   };
 

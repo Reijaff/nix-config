@@ -25,21 +25,11 @@
 
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , disko
-    , home-manager
-    , sops-nix
-    , nix-index-database
-    , ...
-    } @ inputs:
+  outputs = { self, nixpkgs, disko, home-manager, sops-nix, nix-index-database
+    , ... }@inputs:
 
-
-    let
-      inherit (self) outputs;
-    in
-    {
+    let inherit (self) outputs;
+    in {
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
@@ -54,10 +44,8 @@
         user = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            ./modules/home.nix
-            nix-index-database.hmModules.nix-index
-          ];
+          modules =
+            [ ./modules/home.nix nix-index-database.hmModules.nix-index ];
         };
       };
     };
