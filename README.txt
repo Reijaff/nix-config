@@ -11,6 +11,6 @@ nix run github:numtide/nixos-anywhere -- --extra-files "$temp" --flake .#nixos r
 
 ssh-keygen -t ed25519 -f ssh_ed25519.key
 
-ssh-to-age -i /etc/ssh/ssh_host_ed25519_key.pub
+ssh-to-age -i /etc/ssh/ssh_host_ed25519.key.pub
 
 sops --encrypt --in-place --age <age_pub_key> secrets/example.yaml
